@@ -47,15 +47,15 @@ def high_low_card(wager):
     money += wager
     print("You drew the {} and the computer drew the {}...".format(PlayerDraw[1], ComputerDraw[1]))
     print("You win $"+str(wager)+"!")
-  elif PlayerDraw < ComputerDraw:
+  elif PlayerDraw[0] < ComputerDraw[0]:
     money += (wager)*-1
     print("You drew the {} and the computer drew the {}...".format(PlayerDraw[1], ComputerDraw[1]))
     print("You lose $"+str((wager))+"!")
-  elif PlayerDraw == ComputerDraw:
+  elif PlayerDraw[0] == ComputerDraw[0]:
     print("You drew the {} and the computer drew the {}...".format(PlayerDraw[1], ComputerDraw[1]))
     print("It's a tie!")
   else:
-    print(PlayerDraw, ComputerDraw, "Something went wrong")
+    print(PlayerDraw[0], ComputerDraw[0], "Something went wrong")
   return "You currently have ${}.".format(money)
 
 print(high_low_card(10))

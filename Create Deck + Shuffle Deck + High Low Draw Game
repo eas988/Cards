@@ -1,0 +1,61 @@
+import random
+
+money = 100
+
+#Creates a nested array containing the integer value of a card (from 2 to 14) and the name of the card in a string
+
+def create_deck():
+  Card_Nums = list(range(2, 10))
+  Card_Values = list(range(2, 15))*4
+  Card_Values.sort()
+  Card_Nums += ["Jack", "Queen", "King", "Ace"]
+  Suits = ["Spades", "Hearts", "Diamonds", "Clubs"]
+  Deck = []
+  for Card in Card_Nums:
+    for Suit in Suits:
+      Deck += [str(Card)+" of "+str(Suit)]
+  Value_Deck = [list(y) for y in zip(Card_Values, Deck)]
+  return Value_Deck
+
+#Runs the create_deck function then shuffles the resulting array
+
+def shuffle_deck():
+  Fresh_Deck = create_deck()
+  random.shuffle(Fresh_Deck)
+  return Fresh_Deck
+
+#High-low card game, function accepts argument of a wager above 0 and lower than the current value of money.
+#Game will generate a new shuffled deck via the shuffle_deck function.
+#Player's card value pushed to PlayerDraw variable via .pop(0), emulating drawing the top card of the deck.
+#Computer does the same.
+#Function compares the Player card's [0] index (the integer) and the Computer card's [0] index; highest wins, same value is a tie
+#Player win results in the wager value being added to the global money value; loss results in that value being subtracted instead
+#String  associated with any outcome will reference the [1]  index (the string) to explain what cards were drawn
+#Another string will elaborate on the outcome
+#Whatever the result, the function will return the player's global money value after the function
+
+def high_low_card(wager):
+  global money
+  if wager > money:
+    return "You don't have enough to make that bet!"
+  if wager <= 0:
+    return "You have to bet a tangible amount of money!"
+  New_Deck = shuffle_deck()
+  PlayerDraw = New_Deck.pop(0)
+  ComputerDraw = New_Deck.pop(0)
+  if PlayerDraw[0] > ComputerDraw[0]:
+    money += wager
+    print("You drew the {} and the computer drew the {}...".format(PlayerDraw[1], ComputerDraw[1]))
+    print("You win $"+str(wager)+"!")
+  elif PlayerDraw < ComputerDraw:
+    money += (wager)*-1
+    print("You drew the {} and the computer drew the {}...".format(PlayerDraw[1], ComputerDraw[1]))
+    print("You lose $"+str((wager))+"!")
+  elif PlayerDraw == ComputerDraw:
+    print("You drew the {} and the computer drew the {}...".format(PlayerDraw[1], ComputerDraw[1]))
+    print("It's a tie!")
+  else:
+    print(PlayerDraw, ComputerDraw, "Something went wrong")
+  return "You currently have ${}.".format(money)
+
+print(high_low_card(10))
